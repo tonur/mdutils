@@ -58,7 +58,10 @@ class MdUtils:
         self.file_name = file_name
         self.author = author
         self.textUtils = TextUtils
-        self.title = str(Header(level=1, title=title, style=HeaderStyle[title_header_style.upper()]))
+        if title:
+            self.title = str(Header(level=1, title=title, style=HeaderStyle[title_header_style.upper()]))
+        else:
+            self.title = None
         self.table_of_contents = ""
         self.file_data_text = ""
         self._table_titles = []
@@ -132,12 +135,17 @@ class MdUtils:
         '\\nHeader Title\\n-------------\\n'
 
         """
+        header = str(Header(level=1, title=title, style=HeaderStyle[style.upper()], header_id=header_id))
+
+        # Level 1 is always title of the file
+        if level == 1:
+            self.title = header
+            return header
+
         if add_table_of_contents == "y":
             self.__add_new_item_table_of_content(level, title)
-        self.___update_file_data(
-            str(Header(level, title, HeaderStyle[style.upper()], header_id))
-        )
-        return str(Header(level, title, HeaderStyle[style.upper()], header_id))
+        self.___update_file_data(header)
+        return header
 
     def __add_new_item_table_of_content(self, level: int, item: Union[List[str], str]):
         """Automatically add new atx headers to the table of contents.
