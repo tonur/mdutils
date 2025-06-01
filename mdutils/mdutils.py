@@ -61,7 +61,7 @@ class MdUtils:
         if title:
             self.title = str(Header(level=1, title=title, style=HeaderStyle[title_header_style.upper()]))
         else:
-            self.title = None
+            self.title = ""
         self.table_of_contents = ""
         self.file_data_text = ""
         self._table_titles = []
